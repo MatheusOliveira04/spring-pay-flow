@@ -2,6 +2,7 @@ package git.MatheusOliveira04.controllers.exceptions;
 
 import git.MatheusOliveira04.services.exception.ObjectNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -21,6 +22,13 @@ public class ControllerExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new StandardError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),
                         request.getRequestURI(), Collections.singletonList(exception.getMessage())));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> getDataIntegrityViolationException(DataIntegrityViolationException exception, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new StandardError(LocalDateTime.now(), HttpStatus.CONFLICT.value(), request.getRequestURI(),
+                        Collections.singletonList(exception.getMessage())));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
