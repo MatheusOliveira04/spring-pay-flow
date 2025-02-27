@@ -3,6 +3,7 @@ package git.MatheusOliveira04.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -25,5 +26,5 @@ public class User {
 
     private String password;
 
-    private String roles;
+    private List<String> roles;
 }

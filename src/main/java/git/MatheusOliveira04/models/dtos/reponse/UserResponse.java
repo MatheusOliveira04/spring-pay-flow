@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -15,5 +16,5 @@ public class UserResponse {
     private UUID id;
     private String username;
     private String email;
-    private String roles;
+    private List<String> roles;
 }

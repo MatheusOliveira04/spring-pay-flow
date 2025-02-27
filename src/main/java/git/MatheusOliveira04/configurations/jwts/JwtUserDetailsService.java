@@ -22,7 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
-                .roles(user.getRoles().split(","))
+                .roles(user.getRoles().toArray(String[]::new))
                 .build();
     }
 }

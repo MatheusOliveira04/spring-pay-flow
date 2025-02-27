@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -13,5 +15,5 @@ public class UserRequest {
     private String username;
     private String email;
     private String password;
-    private String roles;
+    private List<String> roles;
 }

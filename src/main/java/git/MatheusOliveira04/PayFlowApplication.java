@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class PayFlowApplication {
@@ -23,7 +26,7 @@ public class PayFlowApplication {
 		return args -> {
 			userRepository.deleteAll();
 
-			User user = new User(null, "Matheus", "U@gmail.com", "12345", "USER");
+			User user = new User(null, "Matheus", "U@gmail.com", "12345", List.of("USER", "ADMIN"));
 
 			userRepository.save(user);
 		};
