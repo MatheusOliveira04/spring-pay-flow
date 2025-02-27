@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class PayFlowApplication {
 
 	public static void main(String[] args) {

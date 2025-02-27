@@ -1,11 +1,11 @@
 package git.MatheusOliveira04.models.dtos.request;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 
 public record LoginRequest(
-        @NotEmpty(message = "The field cannot be empty")
+        @NotBlank(message = "The field cannot be empty")
         String email,
-        @NotEmpty(message = "The field cannot be empty")
+        @NotBlank(message = "The field cannot be empty")
         String password
 ) {
 }
