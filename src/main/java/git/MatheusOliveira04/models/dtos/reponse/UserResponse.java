@@ -1,5 +1,6 @@
 package git.MatheusOliveira04.models.dtos.reponse;
 
+import git.MatheusOliveira04.models.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,5 +17,5 @@ public class UserResponse {
     private UUID id;
     private String username;
     private String email;
-    private List<String> roles;
+    private List<Role> roles;
 }

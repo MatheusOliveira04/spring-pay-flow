@@ -1,5 +1,6 @@
 package git.MatheusOliveira04.configurations.jwts;
 
+import git.MatheusOliveira04.models.enums.Role;
 import git.MatheusOliveira04.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -22,7 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(user.getEmail())
                 .password(encoder.encode(user.getPassword()))
-                .roles(user.getRoles().toArray(String[]::new))
+                .roles(user.getRoles().stream().map(Role::getValue).toArray(String[]::new))
                 .build();
     }
 }
