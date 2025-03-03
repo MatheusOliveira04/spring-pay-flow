@@ -25,7 +25,7 @@ public class PayFlowApplication {
 		return args -> {
 			userRepository.deleteAll();
 
-			User user = new User(null, "Matheus", "U@gmail.com", "12345", List.of("USER", "ADMIN"));
+			User user = new User(null, "Matheus de oliveira sá", "U@gmail.com", "12345", List.of("USER", "ADMIN"));
 
 			userRepository.save(user);
 		};

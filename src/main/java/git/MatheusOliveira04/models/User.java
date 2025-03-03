@@ -1,11 +1,19 @@
 package git.MatheusOliveira04.models;
 
+import git.MatheusOliveira04.models.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Validated
 @Getter
 @Builder
 @NoArgsConstructor
@@ -18,13 +26,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Field cannot be null.")
     private String username;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Field cannot be null.")
     private String email;
 
+    @Column(nullable = false)
+    @NotBlank(message = "Field cannot be null.")
     private String password;
 
-    private List<String> roles;
+    @Column(nullable = false)
+    @NotEmpty(message = "List cannot be empty.")
+    private List<
+            @NotNull(message = "Field cannot be null.")
+            @NotBlank(message = "Field cannot be null.")
+                    String> roles = new ArrayList<>();
 }

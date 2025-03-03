@@ -1,5 +1,7 @@
 package git.MatheusOliveira04.models.dtos.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,8 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
+    @NotBlank
     private String username;
+    @NotBlank
     private String email;
+    @NotBlank
     private String password;
-    private List<String> roles;
+    @NotEmpty
+    private List<@NotBlank String> roles;
 }
