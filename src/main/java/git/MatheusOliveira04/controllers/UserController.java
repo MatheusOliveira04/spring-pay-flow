@@ -2,16 +2,20 @@ package git.MatheusOliveira04.controllers;
 
 import git.MatheusOliveira04.models.User;
 import git.MatheusOliveira04.models.dtos.reponse.UserResponse;
+import git.MatheusOliveira04.models.dtos.request.UserRequest;
 import git.MatheusOliveira04.models.mappers.impls.UserMapper;
 import git.MatheusOliveira04.services.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/api/v1/user")
 @RestController
@@ -28,5 +32,21 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {
         return ResponseEntity.ok(userService.findAll().stream().map(user -> userMapper.toUserResponse(user)).toList());
+    }
+
+    @Secured({"ROLE_USER"})
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> findById(@PathVariable @NotBlank @NotNull UUID id) {
+        return null;
+    }
+
+    @Secured({"ROLE_ADMIN"})
+    @PostMapping
+    public ResponseEntity<UserResponse> insert(@RequestBody @Valid UserRequest userRequest, UriComponentsBuilder uriComponentsBuilder) {
+        User user = userMapper.toUser(userRequest);
+        userService.insert(user);
+        return ResponseEntity
+                .created(uriComponentsBuilder.path("/api/v1/user/{id}").buildAndExpand(user.getId()).toUri())
+                .body(userMapper.toUserResponse(user));
     }
 }
