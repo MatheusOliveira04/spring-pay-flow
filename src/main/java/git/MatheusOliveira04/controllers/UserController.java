@@ -3,7 +3,7 @@ package git.MatheusOliveira04.controllers;
 import git.MatheusOliveira04.models.User;
 import git.MatheusOliveira04.models.dtos.reponse.UserResponse;
 import git.MatheusOliveira04.models.dtos.request.UserRequest;
-import git.MatheusOliveira04.models.mappers.impls.UserMapper;
+import git.MatheusOliveira04.models.mappers.UserMapper;
 import git.MatheusOliveira04.services.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

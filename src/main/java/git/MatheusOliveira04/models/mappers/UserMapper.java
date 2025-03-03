@@ -1,4 +1,4 @@
-package git.MatheusOliveira04.models.mappers.impls;
+package git.MatheusOliveira04.models.mappers;
 
 import git.MatheusOliveira04.models.User;
 import git.MatheusOliveira04.models.dtos.reponse.UserResponse;
