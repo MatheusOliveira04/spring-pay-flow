@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
@@ -42,5 +41,5 @@ public class User {
     @NotEmpty(message = "List cannot be empty.")
     private List<
             @NotNull(message = "Field cannot be null.")
-                    Role> roles = new ArrayList<>();
+            Role> roles = new ArrayList<>();
 }
