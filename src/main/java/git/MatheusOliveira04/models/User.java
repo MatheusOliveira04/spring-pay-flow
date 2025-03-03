@@ -41,7 +41,6 @@ public class User {
     @Column(nullable = false)
     @NotEmpty(message = "List cannot be empty.")
     private List<
-            //@NotNull(message = "Field cannot be null.")
-            //@NotBlank(message = "Field cannot be null.")
+            @NotNull(message = "Field cannot be null.")
                     Role> roles = new ArrayList<>();
 }

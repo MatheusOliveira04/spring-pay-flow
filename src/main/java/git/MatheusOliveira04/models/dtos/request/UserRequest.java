@@ -2,6 +2,7 @@ package git.MatheusOliveira04.models.dtos.request;
 
 import git.MatheusOliveira04.models.enums.Role;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,6 @@ public class UserRequest {
     private String email;
     @NotBlank
     private String password;
-    //@NotBlank
-    //@NotNull
-    private List<Role> roles;
+    @NotEmpty
+    private List<@NotBlank @NotNull String> roles;
 }

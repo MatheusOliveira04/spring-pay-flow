@@ -3,6 +3,7 @@ package git.MatheusOliveira04.models.mappers.impls;
 import git.MatheusOliveira04.models.User;
 import git.MatheusOliveira04.models.dtos.reponse.UserResponse;
 import git.MatheusOliveira04.models.dtos.request.UserRequest;
+import git.MatheusOliveira04.models.enums.Role;
 import git.MatheusOliveira04.models.mappers.UserMapper;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class UserMapperImpl implements UserMapper {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .roles(user.getRoles())
+                .roles(user.getRoles().stream().map(Role::getValue).toList())
                 .build();
     }
 
@@ -25,7 +26,7 @@ public class UserMapperImpl implements UserMapper {
                 .username(userRequest.getUsername())
                 .email(userRequest.getEmail())
                 .password(userRequest.getPassword())
-                .roles(userRequest.getRoles())
+                .roles(userRequest.getRoles().stream().map(Role::parse).toList())
                 .build();
     }
 }
