@@ -1,5 +1,6 @@
 package git.MatheusOliveira04.controllers.exceptions;
 
+import git.MatheusOliveira04.services.exception.IntegrityViolationException;
 import git.MatheusOliveira04.services.exception.ObjectNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,6 +25,14 @@ public class ControllerExceptionHandler {
                         request.getRequestURI(), Collections.singletonList(exception.getMessage())));
     }
 
+    @ExceptionHandler(IntegrityViolationException.class)
+    public ResponseEntity<StandardError> getIntegrityViolationException(IntegrityViolationException exception, HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new StandardError(LocalDateTime.now(), HttpStatus.CONFLICT.value(),
+                        request.getRequestURI(), Collections.singletonList(exception.getMessage())));
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<StandardError> getDataIntegrityViolationException(DataIntegrityViolationException exception, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -40,5 +49,11 @@ public class ControllerExceptionHandler {
                                 .stream()
                                 .map(error -> ((FieldError) error).getField() + ": " + error.getDefaultMessage())
                                 .toList()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<StandardError> getException(Exception exception, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new StandardError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), request.getRequestURI(), Collections.singletonList(exception.getMessage())));
     }
 }
