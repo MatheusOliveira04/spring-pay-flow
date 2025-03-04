@@ -1,5 +1,6 @@
-package git.MatheusOliveira04.models.enums.validations;
+package git.MatheusOliveira04.models.enums.validations.annotations;
 
+import git.MatheusOliveira04.models.enums.validations.ValueOfEnumValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
