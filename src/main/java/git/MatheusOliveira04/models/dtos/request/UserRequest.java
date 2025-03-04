@@ -1,7 +1,8 @@
 package git.MatheusOliveira04.models.dtos.request;
 
 import git.MatheusOliveira04.models.enums.Role;
-import git.MatheusOliveira04.models.enums.validations.ValueOfEnum;
+import git.MatheusOliveira04.models.enums.validations.annotations.ValueOfEnum;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ public class UserRequest {
     @NotBlank
     private String username;
     @NotBlank
+    @Email
     private String email;
     @NotBlank
     private String password;
