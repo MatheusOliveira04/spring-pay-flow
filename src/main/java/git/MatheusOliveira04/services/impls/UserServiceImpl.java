@@ -2,6 +2,7 @@ package git.MatheusOliveira04.services.impls;
 
 import git.MatheusOliveira04.models.User;
 import git.MatheusOliveira04.repositories.UserRepository;
+import git.MatheusOliveira04.services.exception.IntegrityViolationException;
 import git.MatheusOliveira04.services.exception.ObjectNotFoundException;
 import git.MatheusOliveira04.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private void validateEmailIsUnique(User user) {
+        var userFound = findByEmail(user.getEmail());
+        if (userFound != null && user.getId() != userFound.getId()) {
+            throw new IntegrityViolationException("Email already exists");
+        }
+    }
 
     @Override
     public List<User> findAll() {
@@ -33,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User insert(User user) {
+        validateEmailIsUnique(user);
         return userRepository.save(user);
     }
 }
