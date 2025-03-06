@@ -48,4 +48,12 @@ public class UserController {
                 .created(uriComponentsBuilder.path("/api/v1/user/{id}").buildAndExpand(user.getId()).toUri())
                 .body(userMapper.toUserResponse(user));
     }
+
+    @Secured({"ROLE_ADMIN"})
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> update(@RequestBody @Valid UserRequest userRequest, @PathVariable @NotNull UUID id) {
+        User user = userMapper.toUser(userRequest);
+        user.setId(id);
+        return ResponseEntity.ok(userMapper.toUserResponse(userService.update(user)));
+    }
 }

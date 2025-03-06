@@ -53,4 +53,11 @@ public class UserServiceImpl implements UserService {
         validateEmailIsUnique(user);
         return userRepository.save(user);
     }
+
+    @Override
+    public User update(User user) {
+        findById(user.getId());
+        validateEmailIsUnique(user);
+        return userRepository.save(user);
+    }
 }
