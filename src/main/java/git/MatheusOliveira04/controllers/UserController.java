@@ -56,4 +56,11 @@ public class UserController {
         user.setId(id);
         return ResponseEntity.ok(userMapper.toUserResponse(userService.update(user)));
     }
+
+    @Secured({"ROLE_ADMIN"})
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable @NotNull UUID id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -60,4 +60,9 @@ public class UserServiceImpl implements UserService {
         validateEmailIsUnique(user);
         return userRepository.save(user);
     }
+
+    @Override
+    public void delete(UUID id) {
+        userRepository.delete(findById(id));
+    }
 }

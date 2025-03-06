@@ -21,4 +21,6 @@ public interface UserService {
     User insert(@Valid User user);
 
     User update (@Valid User user);
+
+    void delete(@NotNull UUID id);
 }
