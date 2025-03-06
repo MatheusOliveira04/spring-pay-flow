@@ -36,15 +36,14 @@ public class UserController {
 
     @Secured({"ROLE_USER"})
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable @NotBlank @NotNull UUID id) {
-        return null;
+    public ResponseEntity<UserResponse> findById(@PathVariable @NotNull UUID id) {
+        return ResponseEntity.ok(userMapper.toUserResponse(userService.findById(id)));
     }
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<UserResponse> insert(@RequestBody @Valid UserRequest userRequest, UriComponentsBuilder uriComponentsBuilder) {
-        User user = userMapper.toUser(userRequest);
-        userService.insert(user);
+        User user = userService.insert(userMapper.toUser(userRequest));
         return ResponseEntity
                 .created(uriComponentsBuilder.path("/api/v1/user/{id}").buildAndExpand(user.getId()).toUri())
                 .body(userMapper.toUserResponse(user));

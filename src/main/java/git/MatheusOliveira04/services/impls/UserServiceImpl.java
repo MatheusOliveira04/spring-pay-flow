@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,8 +19,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     private void validateEmailIsUnique(User user) {
-        var userFound = findByEmail(user.getEmail());
-        if (userFound != null && user.getId() != userFound.getId()) {
+        Optional<User> userFound = userRepository.findByEmail(user.getEmail());
+        if (userFound.isPresent() && user.getId() != userFound.get().getId()) {
             throw new IntegrityViolationException("Email already exists");
         }
     }
@@ -30,6 +32,13 @@ public class UserServiceImpl implements UserService {
             throw new ObjectNotFoundException("No User found.");
         }
         return usersFound;
+    }
+
+    @Override
+    public User findById(UUID id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("User not found with id: " + id));
     }
 
     @Override
