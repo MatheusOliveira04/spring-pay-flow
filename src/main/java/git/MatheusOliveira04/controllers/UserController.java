@@ -3,6 +3,7 @@ package git.MatheusOliveira04.controllers;
 import git.MatheusOliveira04.models.User;
 import git.MatheusOliveira04.models.dtos.reponse.UserResponse;
 import git.MatheusOliveira04.models.dtos.request.UserRequest;
+import git.MatheusOliveira04.models.filters.UserFilter;
 import git.MatheusOliveira04.models.mappers.UserMapper;
 import git.MatheusOliveira04.services.UserService;
 import jakarta.validation.Valid;
@@ -30,8 +31,8 @@ public class UserController {
 
     @Secured({"ROLE_USER"})
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
-        return ResponseEntity.ok(userService.findAll().stream().map(user -> userMapper.toUserResponse(user)).toList());
+    public ResponseEntity<List<UserResponse>> findAll(UserFilter userFilter) {
+        return ResponseEntity.ok(userService.findAll(userFilter).stream().map(user -> userMapper.toUserResponse(user)).toList());
     }
 
     @Secured({"ROLE_USER"})

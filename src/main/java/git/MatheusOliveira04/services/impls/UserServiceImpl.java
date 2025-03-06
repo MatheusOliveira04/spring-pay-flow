@@ -1,6 +1,7 @@
 package git.MatheusOliveira04.services.impls;
 
 import git.MatheusOliveira04.models.User;
+import git.MatheusOliveira04.models.filters.UserFilter;
 import git.MatheusOliveira04.repositories.UserRepository;
 import git.MatheusOliveira04.services.exception.IntegrityViolationException;
 import git.MatheusOliveira04.services.exception.ObjectNotFoundException;
@@ -26,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        List<User> usersFound = userRepository.findAll();
+    public List<User> findAll(UserFilter userFilter) {
+        List<User> usersFound = userRepository.findAll(userFilter.toSpecification());
         if (usersFound.isEmpty()) {
             throw new ObjectNotFoundException("No User found.");
         }

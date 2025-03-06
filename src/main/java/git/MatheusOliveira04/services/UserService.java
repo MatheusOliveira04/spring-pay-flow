@@ -1,6 +1,7 @@
 package git.MatheusOliveira04.services;
 
 import git.MatheusOliveira04.models.User;
+import git.MatheusOliveira04.models.filters.UserFilter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Validated
 public interface UserService {
 
-    List<User> findAll();
+    List<User> findAll(UserFilter userFilter);
 
     User findById(@NotNull UUID id);
 
