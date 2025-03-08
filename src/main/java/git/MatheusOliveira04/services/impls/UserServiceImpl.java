@@ -3,13 +3,14 @@ package git.MatheusOliveira04.services.impls;
 import git.MatheusOliveira04.models.User;
 import git.MatheusOliveira04.models.filters.UserFilter;
 import git.MatheusOliveira04.repositories.UserRepository;
+import git.MatheusOliveira04.services.UserService;
 import git.MatheusOliveira04.services.exception.IntegrityViolationException;
 import git.MatheusOliveira04.services.exception.ObjectNotFoundException;
-import git.MatheusOliveira04.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,8 +28,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll(UserFilter userFilter) {
-        List<User> usersFound = userRepository.findAll(userFilter.toSpecification());
+    public Page<User> findAll(int page, int size, UserFilter userFilter) {
+        Page<User> usersFound = userRepository.findAll(userFilter.toSpecification(), PageRequest.of(page, size));
         if (usersFound.isEmpty()) {
             throw new ObjectNotFoundException("No User found.");
         }

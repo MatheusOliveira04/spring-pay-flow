@@ -14,19 +14,23 @@ import java.util.List;
 @SpringBootApplication
 public class PayFlowApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PayFlowApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PayFlowApplication.class, args);
+    }
 
-	@Bean
-	CommandLineRunner initDatabase(UserService userService, UserRepository userRepository) {
-		return args -> {
-			userRepository.deleteAll();
+    @Bean
+    CommandLineRunner initDatabase(UserService userService, UserRepository userRepository) {
+        return args -> {
+            userRepository.deleteAll();
+            User userAdmin = new User(null, "Matheus de oliveira sá", "U@gmail.com", "12345", List.of(Role.USER, Role.ADMIN));
+            userRepository.save(userAdmin);
 
-			User user = new User(null, "Matheus de oliveira sá", "U@gmail.com", "12345", List.of(Role.USER, Role.ADMIN));
+            for (int i = 0; i < 20; i++) {
+                userRepository.save(new User(null, "user" + i, i + "@gmail.com", "12345", List.of(Role.USER, Role.ADMIN)));
+            }
 
-			userRepository.save(user);
-		};
-	}
+
+        };
+    }
 
 }
