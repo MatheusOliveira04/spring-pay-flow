@@ -15,6 +15,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -37,6 +39,7 @@ public class UserController {
     private UserMapper userMapper;
 
 
+    @Cacheable(value = "user")
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @Secured({"ROLE_USER"})
     @GetMapping
@@ -56,6 +59,7 @@ public class UserController {
                 .build());
     }
 
+    @Cacheable(value = "user", key = "#id")
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @Secured({"ROLE_USER"})
     @GetMapping("/{id}")
@@ -63,6 +67,7 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toUserResponse(userService.findById(id)));
     }
 
+    @CacheEvict(value = "user", allEntries = true)
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @Secured({"ROLE_ADMIN"})
     @PostMapping
@@ -73,6 +78,7 @@ public class UserController {
                 .body(userMapper.toUserResponse(user));
     }
 
+    @CacheEvict(value = "user", allEntries = true)
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/{id}")
@@ -82,6 +88,7 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toUserResponse(userService.update(user)));
     }
 
+    @CacheEvict(value = "user", allEntries = true)
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
