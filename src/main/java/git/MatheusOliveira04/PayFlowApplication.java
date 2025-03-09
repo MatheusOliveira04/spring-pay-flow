@@ -30,8 +30,6 @@ public class PayFlowApplication {
             for (int i = 0; i < 20; i++) {
                 userRepository.save(new User(null, "user" + i, i + "@gmail.com", "12345", List.of(Role.USER, Role.ADMIN)));
             }
-
-
         };
     }
 

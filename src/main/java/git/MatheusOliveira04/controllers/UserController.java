@@ -47,13 +47,10 @@ public class UserController {
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "10") @Positive @Max(100) int size,
             UserFilter userFilter) {
-
         Page<User> pageUserFound = userService.findAll(page, size, userFilter);
-        List<UserResponse> userResponses = pageUserFound.get().map(user -> userMapper.toUserResponse(user)).toList();
-
         return ResponseEntity.ok(UserPageResponse
                 .builder()
-                .users(userResponses)
+                .users(userMapper.toUserResponse(pageUserFound.toList()))
                 .totalItems(pageUserFound.getTotalElements())
                 .totalPages(pageUserFound.getTotalPages())
                 .build());
