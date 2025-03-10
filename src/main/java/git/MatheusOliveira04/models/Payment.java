@@ -1,6 +1,7 @@
 package git.MatheusOliveira04.models;
 
 import git.MatheusOliveira04.models.enums.PaymentMethod;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -25,9 +26,10 @@ public class Payment {
     @GeneratedValue
     private UUID id;
 
-    @NotNull
+    @Column(nullable = false)
     private PaymentMethod paymentMethod;
 
-    @NotNull @Positive
+    @Positive(message = "Field must be greater than zero")
+    @Column(nullable = false)
     private BigDecimal amountReceived;
 }
