@@ -1,6 +1,7 @@
 package git.MatheusOliveira04.controllers;
 
 import git.MatheusOliveira04.models.Payment;
+import git.MatheusOliveira04.models.dtos.reponse.PaymentResponse;
 import git.MatheusOliveira04.models.dtos.request.PaymentRequest;
 import git.MatheusOliveira04.models.mappers.PaymentMapper;
 import git.MatheusOliveira04.services.PaymentService;
@@ -25,9 +26,9 @@ public class SaleController {
     }
 
     @PostMapping("/payment-method")
-    public ResponseEntity<Payment> payment(@RequestBody @Valid PaymentRequest paymentRequest) {
+    public ResponseEntity<PaymentResponse> payment(@RequestBody @Valid PaymentRequest paymentRequest) {
         Payment payment = paymentMapper.toPayment(paymentRequest);
         paymentService.pay(payment.getPaymentMethod(), payment.getAmountReceived());
-        return ResponseEntity.ok(payment);
+        return ResponseEntity.ok(paymentMapper.toPaymentResponse(payment));
     }
 }
