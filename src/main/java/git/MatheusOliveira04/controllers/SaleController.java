@@ -1,6 +1,8 @@
 package git.MatheusOliveira04.controllers;
 
 import git.MatheusOliveira04.models.Payment;
+import git.MatheusOliveira04.models.dtos.request.PaymentRequest;
+import git.MatheusOliveira04.models.mappers.PaymentMapper;
 import git.MatheusOliveira04.services.PaymentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,17 @@ public class SaleController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private PaymentMapper paymentMapper;
+
     @GetMapping
     public String get() {
         return "Hello world!";
     }
 
     @PostMapping("/payment-method")
-    public ResponseEntity<Payment> payment(@RequestBody @Valid Payment payment) {
+    public ResponseEntity<Payment> payment(@RequestBody @Valid PaymentRequest paymentRequest) {
+        Payment payment = paymentMapper.toPayment(paymentRequest);
         paymentService.pay(payment.getPaymentMethod(), payment.getAmountReceived());
         return ResponseEntity.ok(payment);
     }
