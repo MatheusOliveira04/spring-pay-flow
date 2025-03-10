@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class PaymentRequest {
     @NotNull
-    PaymentMethod paymentMethod;
+    String paymentMethod;
     @NotNull @Positive
     BigDecimal amountReceived;
 }

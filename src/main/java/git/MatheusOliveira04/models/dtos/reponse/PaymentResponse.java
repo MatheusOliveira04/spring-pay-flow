@@ -16,6 +16,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PaymentResponse {
     private UUID id;
-    private PaymentMethod paymentMethod;
+    private String paymentMethod;
     private BigDecimal amountReceived;
 }
