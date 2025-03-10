@@ -1,6 +1,7 @@
 package git.MatheusOliveira04.services.impls;
 
 import git.MatheusOliveira04.models.enums.PaymentMethod;
+import git.MatheusOliveira04.services.PaymentService;
 import git.MatheusOliveira04.services.strategy.PaymentStrategy;
 import git.MatheusOliveira04.services.strategy.impls.CashPaymentStrategy;
 import git.MatheusOliveira04.services.strategy.impls.PixPaymentStrategy;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 @Service
-public class PaymentServiceImpl {
+public class PaymentServiceImpl implements PaymentService {
 
     private final Map<PaymentMethod, PaymentStrategy> mapPaymentMethod = Map.of(
             PaymentMethod.PIX, new PixPaymentStrategy(),
