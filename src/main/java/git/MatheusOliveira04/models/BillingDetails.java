@@ -26,14 +26,14 @@ public class BillingDetails {
 
     @Column(nullable = false)
     @DecimalMin(value = "0.00", message = "This field cannot be less than zero")
-    private BigDecimal totalPaid;
+    private BigDecimal totalPaid = BigDecimal.ZERO;
 
     @Column(nullable = false)
     @DecimalMin(value = "0.00", message = "This field cannot be less than zero")
-    private BigDecimal cashBack;
+    private BigDecimal cashBack = BigDecimal.ZERO;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sale_id")
+    @JoinColumn(name = "sale_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Sale sale;
 }
