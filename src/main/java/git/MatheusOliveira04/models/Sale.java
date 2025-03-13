@@ -1,10 +1,12 @@
 package git.MatheusOliveira04.models;
 
+import git.MatheusOliveira04.models.enums.StatusSale;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +27,7 @@ public class Sale {
     private String code;
 
     @Column(nullable = false)
-    private String status;
+    private StatusSale status = StatusSale.DUE;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "sale")
     private BillingDetails billingDetails;
@@ -36,5 +38,5 @@ public class Sale {
     private LocalDate datePayed;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "sale")
-    private List<Payment> payments;
+    private List<Payment> payments = new ArrayList<>();
 }
