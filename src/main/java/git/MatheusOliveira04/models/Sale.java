@@ -2,6 +2,7 @@ package git.MatheusOliveira04.models;
 
 import git.MatheusOliveira04.models.enums.StatusSale;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -30,10 +32,9 @@ public class Sale {
     private String code;
 
     @Column(nullable = false)
-    private StatusSale status = StatusSale.DUE;
+    private StatusSale status;
 
-    @JoinColumn(nullable = false)
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "sale")
+    @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private BillingDetails billingDetails;
 
     @FutureOrPresent
