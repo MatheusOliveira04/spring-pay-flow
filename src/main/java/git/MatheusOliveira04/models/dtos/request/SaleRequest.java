@@ -1,9 +1,11 @@
 package git.MatheusOliveira04.models.dtos.request;
 
-import git.MatheusOliveira04.models.BillingDetails;
 import git.MatheusOliveira04.models.enums.StatusSale;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -21,7 +23,7 @@ public class SaleRequest {
     @NotNull
     private StatusSale status;
     @NotNull @Valid
-    private BillingDetails billingDetails;
+    private BillingDetailsRequest billingDetails;
     @NotNull @FutureOrPresent
     private LocalDate dateToPay;
     @PastOrPresent
