@@ -4,13 +4,11 @@ import git.MatheusOliveira04.models.enums.PaymentMethod;
 import git.MatheusOliveira04.models.enums.validations.annotations.ValueOfEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor
