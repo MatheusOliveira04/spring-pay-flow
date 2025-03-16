@@ -24,11 +24,11 @@ public class BillingDetails {
     @Column(nullable = false, name = "total_amount_to_pay")
     private BigDecimal totalAmountToPay;
 
-    @Column(nullable = false, name = "total_paid")
+    @Column(name = "total_paid")
     @DecimalMin(value = "0.00", message = "This field cannot be less than zero")
     private BigDecimal totalPaid = BigDecimal.ZERO;
 
-    @Column(nullable = false, name = "cash_back")
+    @Column(name = "cash_back")
     @DecimalMin(value = "0.00", message = "This field cannot be less than zero")
     private BigDecimal cashBack = BigDecimal.ZERO;
 
