@@ -1,10 +1,9 @@
 package git.MatheusOliveira04.controllers;
 
-import git.MatheusOliveira04.models.Payment;
-import git.MatheusOliveira04.models.dtos.reponse.PaymentResponse;
-import git.MatheusOliveira04.models.dtos.request.PaymentRequest;
-import git.MatheusOliveira04.models.mappers.PaymentMapper;
-import git.MatheusOliveira04.services.PaymentService;
+import git.MatheusOliveira04.models.Sale;
+import git.MatheusOliveira04.models.dtos.request.SaleRequest;
+import git.MatheusOliveira04.models.mappers.SaleMapper;
+import git.MatheusOliveira04.services.SaleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +14,18 @@ import org.springframework.web.bind.annotation.*;
 public class SaleController {
 
     @Autowired
-    private PaymentService paymentService;
+    private SaleService saleService;
 
     @Autowired
-    private PaymentMapper paymentMapper;
+    private SaleMapper saleMapper;
 
     @GetMapping
     public String get() {
         return "Hello world!";
     }
 
-    @PostMapping("/payment-method")
-    public ResponseEntity<PaymentResponse> payment(@RequestBody @Valid PaymentRequest paymentRequest) {
-        Payment payment = paymentMapper.toPayment(paymentRequest);
-        paymentService.pay(payment.getPaymentMethod(), payment.getAmountReceived());
-        return ResponseEntity.ok(paymentMapper.toPaymentResponse(payment));
+    @PostMapping()
+    public ResponseEntity<Sale> payment(@RequestBody @Valid SaleRequest saleRequest) {
+        return ResponseEntity.ok(saleService.insert(saleMapper.toSale(saleRequest)));
     }
 }
