@@ -21,19 +21,19 @@ public class BillingDetails {
     private UUID id;
 
     @DecimalMin(value = "0.01", message = "This field must be greater than zero")
-    @Column(nullable = false)
+    @Column(nullable = false, name = "total_amount_to_pay")
     private BigDecimal totalAmountToPay;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "total_paid")
     @DecimalMin(value = "0.00", message = "This field cannot be less than zero")
     private BigDecimal totalPaid = BigDecimal.ZERO;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "cash_back")
     @DecimalMin(value = "0.00", message = "This field cannot be less than zero")
     private BigDecimal cashBack = BigDecimal.ZERO;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sale_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "sale_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Sale sale;
 }
