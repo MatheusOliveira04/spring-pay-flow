@@ -24,7 +24,7 @@ public class SaleController {
         return "Hello world!";
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Sale> payment(@RequestBody @Valid SaleRequest saleRequest) {
         return ResponseEntity.ok(saleService.insert(saleMapper.toSale(saleRequest)));
     }
