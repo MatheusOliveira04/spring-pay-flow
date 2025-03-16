@@ -1,6 +1,7 @@
 package git.MatheusOliveira04.models;
 
 import git.MatheusOliveira04.models.enums.Role;
+import git.MatheusOliveira04.models.enums.converters.RoleConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,6 +43,7 @@ public class User {
 
     @Column(nullable = false)
     @NotEmpty(message = "List cannot be empty.")
+    @Convert(converter = RoleConverter.class)
     private List<
             @NotNull(message = "Field cannot be null.")
             Role> roles = new ArrayList<>();
