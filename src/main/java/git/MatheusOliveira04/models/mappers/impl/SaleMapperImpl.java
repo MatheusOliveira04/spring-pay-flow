@@ -2,6 +2,7 @@ package git.MatheusOliveira04.models.mappers.impl;
 
 import git.MatheusOliveira04.models.Sale;
 import git.MatheusOliveira04.models.dtos.request.SaleRequest;
+import git.MatheusOliveira04.models.enums.StatusSale;
 import git.MatheusOliveira04.models.mappers.BillingDetailsMapper;
 import git.MatheusOliveira04.models.mappers.PaymentMapper;
 import git.MatheusOliveira04.models.mappers.SaleMapper;
@@ -22,7 +23,7 @@ public class SaleMapperImpl implements SaleMapper {
 
         Sale sale = Sale.builder()
                 .description(saleRequest.getDescription())
-                .status(saleRequest.getStatus())
+                .status(StatusSale.parse(saleRequest.getStatus()))
                 .dateToPay(saleRequest.getDateToPay())
                 .datePayed(saleRequest.getDatePayed())
                 .build();

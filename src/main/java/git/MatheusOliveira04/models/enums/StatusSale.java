@@ -18,7 +18,7 @@ public enum StatusSale {
         this.value = value;
     }
 
-    public StatusSale parse(String value) {
+    public static StatusSale parse(String value) {
         if (ObjectUtils.isEmpty(value)) {
             return null;
         }
