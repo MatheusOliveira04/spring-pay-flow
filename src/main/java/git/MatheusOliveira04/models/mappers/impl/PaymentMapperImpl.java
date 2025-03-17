@@ -6,7 +6,8 @@ import git.MatheusOliveira04.models.dtos.request.PaymentRequest;
 import git.MatheusOliveira04.models.enums.PaymentMethod;
 import git.MatheusOliveira04.models.mappers.PaymentMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Component
 public class PaymentMapperImpl implements PaymentMapper {
@@ -18,5 +19,16 @@ public class PaymentMapperImpl implements PaymentMapper {
             .amountReceived(paymentRequest.getAmountReceived())
             .sale(sale)
             .build();
+    }
+
+    @Override
+    public List<Payment> toPayment(List<PaymentRequest> paymentRequests, Sale sale) {
+        return paymentRequests.stream()
+                .map(paymentRequest -> Payment.builder()
+                        .paymentMethod(PaymentMethod.parse(paymentRequest.getPaymentMethod()))
+                        .amountReceived(paymentRequest.getAmountReceived())
+                        .sale(sale)
+                        .build())
+                .toList();
     }
 }
