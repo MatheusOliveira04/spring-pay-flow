@@ -30,6 +30,6 @@ public class SaleRequest {
     private LocalDate dateToPay;
     @PastOrPresent
     private LocalDate datePayed;
-    @NotEmpty @Valid
+    @Valid
     private List<@NotNull PaymentRequest> payments;
 }
