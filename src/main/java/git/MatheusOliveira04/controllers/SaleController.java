@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/sale")
 @RestController
 public class SaleController {
@@ -20,8 +22,8 @@ public class SaleController {
     private SaleMapper saleMapper;
 
     @GetMapping
-    public String get() {
-        return "Hello world!";
+    public ResponseEntity<List<Sale>> findAll() {
+        return ResponseEntity.ok(saleService.findAll());
     }
 
     @PostMapping

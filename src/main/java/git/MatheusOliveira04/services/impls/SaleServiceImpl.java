@@ -5,6 +5,7 @@ import git.MatheusOliveira04.models.Sale;
 import git.MatheusOliveira04.models.enums.StatusSale;
 import git.MatheusOliveira04.repositories.SaleRepository;
 import git.MatheusOliveira04.services.SaleService;
+import git.MatheusOliveira04.services.exception.ObjectNotFoundException;
 import git.MatheusOliveira04.services.strategy.StatusSaleStrategy;
 import git.MatheusOliveira04.services.strategy.impl.DueStatusSaleStrategyImpl;
 import git.MatheusOliveira04.services.strategy.impl.NotReceivedStatusSaleStrategyImpl;
@@ -32,7 +33,11 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public List<Sale> findAll() {
-        return List.of();
+        List<Sale> salesFound = saleRepository.findAll();
+        if (salesFound.isEmpty()) {
+            throw new ObjectNotFoundException("No sale found.");
+        }
+        return salesFound;
     }
 
     @Override
