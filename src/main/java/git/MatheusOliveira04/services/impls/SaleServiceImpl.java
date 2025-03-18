@@ -1,16 +1,21 @@
 package git.MatheusOliveira04.services.impls;
 
+import git.MatheusOliveira04.models.Payment;
 import git.MatheusOliveira04.models.Sale;
 import git.MatheusOliveira04.models.enums.StatusSale;
 import git.MatheusOliveira04.repositories.SaleRepository;
 import git.MatheusOliveira04.services.SaleService;
-import git.MatheusOliveira04.services.exception.IntegrityViolationException;
+import git.MatheusOliveira04.services.strategy.StatusSaleStrategy;
+import git.MatheusOliveira04.services.strategy.impl.DueStatusSaleStrategyImpl;
+import git.MatheusOliveira04.services.strategy.impl.NotReceivedStatusSaleStrategyImpl;
+import git.MatheusOliveira04.services.strategy.impl.ReceivedStatusSaleStrategyImpl;
 import git.MatheusOliveira04.utils.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -18,6 +23,12 @@ public class SaleServiceImpl implements SaleService {
 
     @Autowired
     private SaleRepository saleRepository;
+
+    private final Map<StatusSale, StatusSaleStrategy> mapStatusSaleStrategy = Map.of(
+            StatusSale.DUE, new DueStatusSaleStrategyImpl(),
+            StatusSale.RECEIVED, new ReceivedStatusSaleStrategyImpl(),
+            StatusSale.NOT_RECEIVED, new NotReceivedStatusSaleStrategyImpl()
+    );
 
     @Override
     public List<Sale> findAll() {
@@ -31,6 +42,8 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sale insert(Sale sale) {
+        validateStatus(sale);
+        receivedValueTotalPayed(sale);
         return saleRepository.save(sale);
     }
 
@@ -44,37 +57,22 @@ public class SaleServiceImpl implements SaleService {
 
     }
 
+    private void receivedValueTotalPayed(Sale sale) {
+        sale.getBillingDetails().setTotalPaid(sumAmountReceivedOfAllPayments(sale));
+    }
+
+    private BigDecimal sumAmountReceivedOfAllPayments(Sale sale) {
+        if (ListUtils.isNullOrEmpty(sale.getPayments())) {
+            return BigDecimal.ZERO;
+        }
+
+        return sale.getPayments()
+                .stream()
+                .map(Payment::getAmountReceived)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
     private void validateStatus(Sale sale) {
-    }
-
-    private void statusReceived(Sale sale) {
-        if (sale.getStatus() == StatusSale.RECEIVED) {
-
-            if (ListUtils.isNullOrEmpty(sale.getPayments())) {
-                throw new IntegrityViolationException("Status da venda for PAGO, deve ter pagamento");
-            }
-
-            sale.setDatePayed(LocalDate.now());
-        }
-    }
-
-    public void statusNotReceived(Sale sale) {
-        if (sale.getStatus() == StatusSale.NOT_RECEIVED) {
-            throw new IntegrityViolationException("Status da venda não deve ser NÃO PAGO");
-        }
-    }
-
-    private void statusDue(Sale sale) {
-        if (sale.getStatus() == StatusSale.DUE) {
-
-            if (sale.getDatePayed() != null) {
-                throw new IntegrityViolationException("Status da venda for DEVENDO, não deve ter data pago");
-            }
-
-            if (!sale.getPayments().isEmpty()) {
-                throw new IntegrityViolationException("Status da venda for DEVENDO, não deve ter pagamento");
-            }
-
-        }
+        mapStatusSaleStrategy.get(sale.getStatus()).validateStatusSale(sale);
     }
 }
