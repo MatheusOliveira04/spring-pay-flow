@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,8 +34,13 @@ public class SaleController {
     }
 
     @PostMapping
-    public ResponseEntity<Sale> insert(@RequestBody @Valid SaleRequest saleRequest) {
-        return ResponseEntity.ok(saleService.insert(saleMapper.toSale(saleRequest)));
+    public ResponseEntity<Sale> insert(@RequestBody @Valid SaleRequest saleRequest, UriComponentsBuilder uriComponentsBuilder) {
+        Sale sale = saleService.insert(saleMapper.toSale(saleRequest));
+        return ResponseEntity.created(uriComponentsBuilder
+                        .path("/api/v1/sale/{id}")
+                        .buildAndExpand(sale.getId())
+                        .toUri())
+                .body(sale);
     }
 
     @PutMapping("/{id}")
