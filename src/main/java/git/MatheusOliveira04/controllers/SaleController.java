@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/api/v1/sale")
 @RestController
@@ -26,8 +27,15 @@ public class SaleController {
         return ResponseEntity.ok(saleService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Sale> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(saleService.findById(id));
+    }
+
     @PostMapping
-    public ResponseEntity<Sale> payment(@RequestBody @Valid SaleRequest saleRequest) {
+    public ResponseEntity<Sale> insert(@RequestBody @Valid SaleRequest saleRequest) {
         return ResponseEntity.ok(saleService.insert(saleMapper.toSale(saleRequest)));
     }
+
+
 }

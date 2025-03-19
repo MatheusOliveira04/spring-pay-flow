@@ -42,7 +42,9 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sale findById(UUID id) {
-        return null;
+        return saleRepository
+                .findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Sale not found with id: " + id));
     }
 
     @Override
