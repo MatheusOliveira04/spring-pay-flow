@@ -49,4 +49,10 @@ public class SaleController {
         sale.setId(id);
         return ResponseEntity.ok(saleService.update(sale));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        saleService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

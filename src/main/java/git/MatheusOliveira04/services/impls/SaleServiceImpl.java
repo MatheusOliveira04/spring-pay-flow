@@ -64,7 +64,7 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public void delete(UUID id) {
-
+        saleRepository.delete(findById(id));
     }
 
     private void receivedValueTotalPayed(Sale sale) {
