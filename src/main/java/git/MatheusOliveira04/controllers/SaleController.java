@@ -37,5 +37,10 @@ public class SaleController {
         return ResponseEntity.ok(saleService.insert(saleMapper.toSale(saleRequest)));
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Sale> update(@PathVariable UUID id, @RequestBody SaleRequest saleRequest) {
+        Sale sale = saleMapper.toSale(saleRequest);
+        sale.setId(id);
+        return ResponseEntity.ok(saleService.update(sale));
+    }
 }

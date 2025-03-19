@@ -56,7 +56,10 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sale update(Sale sale) {
-        return null;
+        findById(sale.getId());
+        validateStatus(sale);
+        receivedValueTotalPayed(sale);
+        return saleRepository.save(sale);
     }
 
     @Override
