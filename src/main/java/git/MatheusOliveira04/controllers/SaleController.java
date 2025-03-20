@@ -1,11 +1,16 @@
 package git.MatheusOliveira04.controllers;
 
 import git.MatheusOliveira04.models.Sale;
+import git.MatheusOliveira04.models.dtos.reponse.SalePageResponse;
 import git.MatheusOliveira04.models.dtos.request.SaleRequest;
 import git.MatheusOliveira04.models.mappers.SaleMapper;
 import git.MatheusOliveira04.services.SaleService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,8 +29,14 @@ public class SaleController {
     private SaleMapper saleMapper;
 
     @GetMapping
-    public ResponseEntity<List<Sale>> findAll() {
-        return ResponseEntity.ok(saleService.findAll());
+    public ResponseEntity<SalePageResponse> findAll(
+            @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int size) {
+        Page<Sale> salesFound = saleService.findAll(page, size);
+
+        return ResponseEntity.ok(
+                new SalePageResponse(salesFound.toList(), salesFound.getTotalElements(), salesFound.getTotalPages())
+        );
     }
 
     @GetMapping("/{id}")

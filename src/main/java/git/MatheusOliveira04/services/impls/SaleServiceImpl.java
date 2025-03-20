@@ -11,7 +11,12 @@ import git.MatheusOliveira04.services.strategy.impl.DueStatusSaleStrategyImpl;
 import git.MatheusOliveira04.services.strategy.impl.NotReceivedStatusSaleStrategyImpl;
 import git.MatheusOliveira04.services.strategy.impl.ReceivedStatusSaleStrategyImpl;
 import git.MatheusOliveira04.utils.ListUtils;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -32,8 +37,8 @@ public class SaleServiceImpl implements SaleService {
     );
 
     @Override
-    public List<Sale> findAll() {
-        List<Sale> salesFound = saleRepository.findAll();
+    public Page<Sale> findAll(int page, int size) {
+        Page<Sale> salesFound = saleRepository.findAll(PageRequest.of(page, size));
         if (salesFound.isEmpty()) {
             throw new ObjectNotFoundException("No sale found.");
         }
