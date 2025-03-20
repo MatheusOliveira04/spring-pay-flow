@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @Builder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -22,6 +21,7 @@ import java.util.UUID;
 public class Sale {
 
     @Id
+    @Setter
     @GeneratedValue
     private UUID id;
 
@@ -33,6 +33,7 @@ public class Sale {
     @Column(nullable = false)
     private StatusSale status;
 
+    @Setter
     @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
     private BillingDetails billingDetails;
 
@@ -45,6 +46,7 @@ public class Sale {
     private LocalDate datePayed;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "sale")
+    @Setter
     private List<Payment> payments = new ArrayList<>();
 
     public Boolean checkDatePayedIsNotNull() {

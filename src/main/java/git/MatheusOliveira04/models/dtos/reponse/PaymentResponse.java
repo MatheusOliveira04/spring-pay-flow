@@ -1,7 +1,6 @@
 package git.MatheusOliveira04.models.dtos.reponse;
 
 
-import git.MatheusOliveira04.models.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,4 +17,5 @@ public class PaymentResponse {
     private UUID id;
     private String paymentMethod;
     private BigDecimal amountReceived;
+    private UUID saleId;
 }
