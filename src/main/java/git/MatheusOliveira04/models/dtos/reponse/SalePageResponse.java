@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SalePageResponse {
-    private List<Sale> sales;
+    private List<SaleResponse> sales = new ArrayList<>();
     private Long totalItems;
     private Integer totalPages;
 }

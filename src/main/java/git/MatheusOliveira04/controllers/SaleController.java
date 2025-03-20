@@ -33,9 +33,8 @@ public class SaleController {
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "10") @Positive @Max(100) int size) {
         Page<Sale> salesFound = saleService.findAll(page, size);
-
         return ResponseEntity.ok(
-                new SalePageResponse(salesFound.toList(), salesFound.getTotalElements(), salesFound.getTotalPages())
+                new SalePageResponse(saleMapper.toSaleResponse(salesFound.toList()), salesFound.getTotalElements(), salesFound.getTotalPages())
         );
     }
 
