@@ -4,6 +4,7 @@ import git.MatheusOliveira04.models.Payment;
 import git.MatheusOliveira04.models.Sale;
 import git.MatheusOliveira04.models.enums.StatusSale;
 import git.MatheusOliveira04.repositories.SaleRepository;
+import git.MatheusOliveira04.services.BillingDetailsService;
 import git.MatheusOliveira04.services.SaleService;
 import git.MatheusOliveira04.services.exception.ObjectNotFoundException;
 import git.MatheusOliveira04.services.strategy.StatusSaleStrategy;
@@ -29,6 +30,9 @@ public class SaleServiceImpl implements SaleService {
 
     @Autowired
     private SaleRepository saleRepository;
+
+    @Autowired
+    private BillingDetailsService billingDetailsService;
 
     private final Map<StatusSale, StatusSaleStrategy> mapStatusSaleStrategy = Map.of(
             StatusSale.DUE, new DueStatusSaleStrategyImpl(),
@@ -56,6 +60,7 @@ public class SaleServiceImpl implements SaleService {
     public Sale insert(Sale sale) {
         validateStatus(sale);
         receivedValueTotalPayed(sale);
+        calculateCashBackOfBillingDetails(sale);
         return saleRepository.save(sale);
     }
 
@@ -64,12 +69,17 @@ public class SaleServiceImpl implements SaleService {
         findById(sale.getId());
         validateStatus(sale);
         receivedValueTotalPayed(sale);
+        calculateCashBackOfBillingDetails(sale);
         return saleRepository.save(sale);
     }
 
     @Override
     public void delete(UUID id) {
         saleRepository.delete(findById(id));
+    }
+
+    private void validateStatus(Sale sale) {
+        mapStatusSaleStrategy.get(sale.getStatus()).validateStatusSale(sale);
     }
 
     private void receivedValueTotalPayed(Sale sale) {
@@ -87,7 +97,7 @@ public class SaleServiceImpl implements SaleService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private void validateStatus(Sale sale) {
-        mapStatusSaleStrategy.get(sale.getStatus()).validateStatusSale(sale);
+    private void calculateCashBackOfBillingDetails(Sale sale) {
+        billingDetailsService.calculateCashBask(sale.getBillingDetails());
     }
 }
