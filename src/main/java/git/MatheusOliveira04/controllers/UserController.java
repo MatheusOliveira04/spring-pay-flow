@@ -38,7 +38,6 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-
     @Cacheable(value = "user")
     @Operation(security = { @SecurityRequirement(name = "bearer-key") })
     @Secured({"ROLE_USER"})

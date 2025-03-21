@@ -12,6 +12,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,6 +29,7 @@ public class SaleController {
     @Autowired
     private SaleMapper saleMapper;
 
+    @Secured({"ROLE_USER"})
     @GetMapping
     public ResponseEntity<SalePageResponse> findAll(
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
@@ -38,11 +40,13 @@ public class SaleController {
         );
     }
 
+    @Secured({"ROLE_USER"})
     @GetMapping("/{id}")
     public ResponseEntity<Sale> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(saleService.findById(id));
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<Sale> insert(@RequestBody @Valid SaleRequest saleRequest, UriComponentsBuilder uriComponentsBuilder) {
         Sale sale = saleService.insert(saleMapper.toSale(saleRequest));
@@ -60,6 +64,7 @@ public class SaleController {
         return ResponseEntity.ok(saleService.update(sale));
     }
 
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         saleService.delete(id);
