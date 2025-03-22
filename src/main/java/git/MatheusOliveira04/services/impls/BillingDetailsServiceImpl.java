@@ -10,8 +10,11 @@ import java.math.BigDecimal;
 public class BillingDetailsServiceImpl implements BillingDetailsService {
     @Override
     public void calculateCashBask(BillingDetails billingDetails) {
-        BigDecimal totalAmountToPay = BigDecimal.valueOf(billingDetails.getTotalAmountToPay().doubleValue());
-        BigDecimal totalPaid = BigDecimal.valueOf(billingDetails.getTotalPaid().doubleValue());
-        billingDetails.setCashBack(totalAmountToPay.subtract(totalPaid));
+        BigDecimal totalAmountToPay = billingDetails.getTotalAmountToPay();
+        BigDecimal totalPaid = billingDetails.getTotalPaid();
+
+        if (totalPaid.compareTo(totalAmountToPay) > 0) {
+            billingDetails.setCashBack(totalPaid.subtract(totalAmountToPay));
+        }
     }
 }
