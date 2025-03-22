@@ -12,6 +12,4 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class BillingDetailsRequest {
     @NotNull @DecimalMin(value = "0.01") private BigDecimal totalAmountToPay;
-    @DecimalMin(value = "0.00") private BigDecimal totalPaid;
-    @DecimalMin(value = "0.00") private BigDecimal cashBack;
 }
