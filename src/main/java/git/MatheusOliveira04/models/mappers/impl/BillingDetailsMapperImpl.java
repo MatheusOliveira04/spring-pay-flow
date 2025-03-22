@@ -13,8 +13,6 @@ public class BillingDetailsMapperImpl implements BillingDetailsMapper {
     public BillingDetails toBillingDetails(BillingDetailsRequest billingDetailsRequest, Sale sale) {
         return BillingDetails.builder()
                 .totalAmountToPay(billingDetailsRequest.getTotalAmountToPay())
-                .totalPaid(billingDetailsRequest.getTotalPaid())
-                .cashBack(billingDetailsRequest.getCashBack())
                 .sale(sale)
                 .build();
     }
