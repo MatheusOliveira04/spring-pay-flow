@@ -30,6 +30,7 @@ public class Sale {
 
     private String code;
 
+    @Setter
     @Column(nullable = false)
     private StatusSale status;
 
