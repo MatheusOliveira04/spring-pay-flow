@@ -46,6 +46,7 @@ public class SaleMapperImpl implements SaleMapper {
                 .id(sale.getId())
                 .code(sale.getCode())
                 .description(sale.getDescription())
+                .status(sale.getStatus())
                 .billingDetails(sale.getBillingDetails())
                 .dateToPay(sale.getDateToPay())
                 .datePayed(sale.getDatePayed())
