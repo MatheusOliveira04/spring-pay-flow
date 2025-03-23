@@ -13,8 +13,14 @@ public class BillingDetailsServiceImpl implements BillingDetailsService {
         BigDecimal totalAmountToPay = billingDetails.getTotalAmountToPay();
         BigDecimal totalPaid = billingDetails.getTotalPaid();
 
-        if (totalPaid.compareTo(totalAmountToPay) > 0) {
+        if (isTotalPaidGreaterThanAmountToPay(totalPaid, totalAmountToPay)) {
             billingDetails.setCashBack(totalPaid.subtract(totalAmountToPay));
+        } else {
+            billingDetails.setCashBack(BigDecimal.ZERO);
         }
+    }
+
+    private Boolean isTotalPaidGreaterThanAmountToPay(BigDecimal totalPaid, BigDecimal totalAmountToPay) {
+        return totalPaid.compareTo(totalAmountToPay) > 0;
     }
 }
