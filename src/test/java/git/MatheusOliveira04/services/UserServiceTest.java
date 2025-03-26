@@ -110,6 +110,26 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Find by email succefully")
+    @Sql({"classpath:/sqls/create_users.sql"})
+    public void findUserByEmailSuccessTest() {
+        var userFound = userService.findByEmail("test1@example.com");
+        assertNotNull(userFound);
+        assertEquals(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"), userFound.getId());
+        assertEquals("test 1", userFound.getUsername());
+        assertEquals("test1@example.com", userFound.getEmail());
+        assertEquals("123", userFound.getPassword());
+        assertTrue(user.getRoles().containsAll(List.of(Role.USER, Role.ADMIN)));
+    }
+
+    @Test
+    @DisplayName("Error when find user by id with no user found")
+    void findUserByEmailWithNoUserFoundThrowsExceptionTest() {
+        var exception = assertThrows(ObjectNotFoundException.class, () -> userService.findByEmail("test1@example.com"));
+        assertEquals("User not found with email: test1@example.com", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Insert user successfully")
     @Sql({"classpath:/sqls/create_users.sql"})
     void insertUserSuccessTest() {
@@ -134,4 +154,71 @@ public class UserServiceTest extends BaseTest {
         assertEquals("Email already exists", exception.getMessage());
     }
 
+    @Test
+    @DisplayName("Update user successfully")
+    @Sql({"classpath:/sqls/create_users.sql"})
+    void updateUserSuccessTest() {
+        var user = new User(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"), "test update", "update@test.com", "update12", List.of(Role.USER));
+        var userUpdate = userService.update(user);
+        assertEquals(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"), userUpdate.getId());
+        assertEquals("test update", userUpdate.getUsername());
+        assertEquals("update@test.com", userUpdate.getEmail());
+        assertEquals("update12", userUpdate.getPassword());
+        assertTrue(userUpdate.getRoles().contains(Role.USER));
+        assertEquals(1, userUpdate.getRoles().size());
+    }
+
+    @Test
+    @DisplayName("Update user using the same email")
+    @Sql({"classpath:/sqls/create_users.sql"})
+    void updateUserUsingTheSameEmail() {
+        var user = new User(
+                UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"), "test update", "test1@example.com", "update12", List.of(Role.USER)
+        );
+        var userUpdate = userService.update(user);
+        assertEquals(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"), userUpdate.getId());
+        assertEquals("test update", userUpdate.getUsername());
+        assertEquals("test1@example.com", userUpdate.getEmail());
+        assertEquals("update12", userUpdate.getPassword());
+        assertTrue(userUpdate.getRoles().contains(Role.USER));
+        assertEquals(1, userUpdate.getRoles().size());
+    }
+
+    @Test
+    @DisplayName("Error when updating a user with id not found")
+    void updateUserWithIdNotFoundThrowsExceptionTest() {
+        var user = new User(
+                UUID.fromString("11a1e0d8-887b-4c2c-973d-50d03803bd11"), "test update", "testUpdate@example.com", "update12", List.of(Role.USER)
+        );
+        var exception = assertThrows(ObjectNotFoundException.class, () -> userService.update(user));
+        assertEquals("User not found with id: 11a1e0d8-887b-4c2c-973d-50d03803bd11", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Error when updating a user with duplicate emails")
+    @Sql({"classpath:/sqls/create_users.sql"})
+    void updateUserWithDuplicateEmailsThrowsExceptionTest() {
+        var user = new User(
+                UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"), "test update", "test2@example.com", "update12", List.of(Role.USER)
+        );
+        var exception = assertThrows(IntegrityViolationException.class, () -> userService.update(user));
+        assertEquals("Email already exists", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Delete user successfully")
+    @Sql({"classpath:/sqls/create_users.sql"})
+    void deleteUserSuccess() {
+        userService.delete(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"));
+        var usersFound = userService.findAll(0, 10, new UserFilter());
+        assertEquals(2, usersFound.toList().size());
+    }
+
+    @Test
+    @DisplayName("Delete user with id not found")
+    void deleteUserWithIdNotFoundThrowsExceptionTest() {
+        var exception = assertThrows(ObjectNotFoundException.class,
+                () -> userService.delete(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35")));
+        assertEquals("User not found with id: 53a1e0d8-887b-4c2c-973d-50d03803bd35", exception.getMessage());
+    }
 }
