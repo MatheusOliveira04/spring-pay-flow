@@ -18,6 +18,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Transactional
 public class UserServiceTest extends BaseTest {
@@ -89,7 +90,27 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("insert user successfully")
+    @DisplayName("Find by id successfully")
+    @Sql({"classpath:/sqls/create_users.sql"})
+    void findUserByIdSuccessTest() {
+        var userFound = userService.findById(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"));
+        assertNotNull(userFound);
+        assertEquals(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35"), userFound.getId());
+        assertEquals("test 1", userFound.getUsername());
+        assertEquals("test1@example.com", userFound.getEmail());
+        assertEquals("123", userFound.getPassword());
+        assertTrue(user.getRoles().containsAll(List.of(Role.USER, Role.ADMIN)));
+    }
+
+    @Test
+    @DisplayName("Error when find user by id with no user found")
+    void findUserByIdWithNoUserFoundThrowsExceptionTest() {
+        var exception = assertThrows(ObjectNotFoundException.class, () -> userService.findById(UUID.fromString("53a1e0d8-887b-4c2c-973d-50d03803bd35")));
+        assertEquals("User not found with id: 53a1e0d8-887b-4c2c-973d-50d03803bd35", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Insert user successfully")
     @Sql({"classpath:/sqls/create_users.sql"})
     void insertUserSuccessTest() {
         var userInsert = userService.insert(user);
