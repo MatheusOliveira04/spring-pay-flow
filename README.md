@@ -6,6 +6,8 @@ The **Payment Manager** is a payment management system built using **Java 21**, 
 
 This system is designed to handle multiple payment methods, track the expiration date of each payment, and provide a clean and efficient way to manage all transactions. Each user can manage their own sales, ensuring that they have clear visibility over the payments they need to make.
 
+![View](assets/swagger-ui-project.png)
+
 ## 👩‍💻 Key Features
 
 - **User Authentication**: Secure user authentication using **Spring Security** and **JWT** (JSON Web Tokens).
