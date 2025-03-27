@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+
+  spring-pay-flow:
+    image: spring-pay-flow:1.0
+    ports:
+      - "8080:8080"
+    networks:
+      - net-pay-flow
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16.0
+    restart: always
+    shm_size: 400mb
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "db_payflow"
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - net-pay-flow
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8079:8080"
+    networks:
+      - net-pay-flow
+
+volumes:
+  db-data:
+
+networks:
+  net-pay-flow:
+    driver: bridge
