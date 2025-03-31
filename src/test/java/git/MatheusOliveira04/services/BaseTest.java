@@ -1,6 +1,7 @@
 package git.MatheusOliveira04.services;
 
 import git.MatheusOliveira04.PayFlowApplication;
+import git.MatheusOliveira04.services.impls.BillingDetailsServiceImpl;
 import git.MatheusOliveira04.services.impls.UserServiceImpl;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -15,6 +16,11 @@ class BaseTest {
 	@Bean
 	public UserService userService() {
 		return new UserServiceImpl();
+	}
+
+	@Bean
+	public BillingDetailsService billingDetailsService() {
+		return new BillingDetailsServiceImpl();
 	}
 
 }

@@ -98,6 +98,6 @@ public class SaleServiceImpl implements SaleService {
     }
 
     private void calculateCashBackOfBillingDetails(Sale sale) {
-        billingDetailsService.calculateCashBask(sale.getBillingDetails());
+        billingDetailsService.calculateCashBack(sale.getBillingDetails());
     }
 }
